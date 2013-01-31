@@ -14,6 +14,12 @@ PoshyMatcher.match?(query, input) # true
 
 Poshy Matcher is just a minimal interface to a Treetop based Parser. Check the grammar for more details.
 
+To run the tests:
+
+```
+$ rake
+```
+
 ## Limitations
 
 This is just a proof of concept of something needed for a personal project, so I just spent a few hours
