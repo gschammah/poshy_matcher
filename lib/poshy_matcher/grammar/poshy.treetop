@@ -1,0 +1,87 @@
+module PoshyMatcher
+  grammar Poshy
+
+    rule start
+      and_statement
+    end
+
+    rule and_statement
+      left:or_statement '&' right:and_statement {
+        def eval(attrs = {})
+          left.eval(attrs) && right.eval(attrs)
+        end
+      }
+      / or_statement
+    end
+
+    rule or_statement
+      left:primary '|' right:or_statement {
+        def eval(attrs = {})
+          left.eval(attrs) || right.eval(attrs)
+        end
+      }
+      / primary
+    end
+
+    rule primary
+      expression / '(' start ')' {
+        def eval(attrs = {})
+          start.eval(attrs)
+        end
+      }
+    end
+
+    rule expression
+      attribute operator value {
+        def eval(attrs = {})
+          attrs.has_key?(attr) && attrs[attr].send(op, val)
+        end
+
+        def attr
+          attribute.text_value.to_sym
+        end
+
+        def op
+          operator.eval.to_sym
+        end
+
+        def val
+          value.eval
+        end
+      }
+    end
+
+    rule attribute
+      string
+    end
+
+    rule operator
+      ('=' / '!=' / '>=' / '<=' / '>' / '<') {
+        def eval
+          text_value == '=' ? '==' : text_value
+        end
+      }
+    end
+
+    rule value
+      number / string
+    end
+
+    rule string
+      [a-zA-Z]+ {
+        def eval
+          text_value
+        end
+      }
+    end
+
+    rule number
+      [0-9]+ {
+        def eval
+          text_value.to_i
+        end
+      }
+    end
+
+  end
+end
