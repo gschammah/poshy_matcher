@@ -1,24 +1,25 @@
-# PoshyMatcher
+# Poshy Matcher
 
-TODO: Write a gem description
+The basic idea behind this gem is to be able to detect if a non nested hash matches a query string.
+The query syntax is extremely simple but has some limitations.
 
-## Installation
+Example
 
-Add this line to your application's Gemfile:
+```ruby
+query = '(name=john&age>20)|(name!=john&age<40)'
+input = { name: 'john', age: 30 }
 
-    gem 'poshy_matcher'
+PoshyMatcher.match?(query, input) # true
+```
 
-And then execute:
+Poshy Matcher is just a minimal interface to a Treetop based Parser. Check the grammar for more details.
 
-    $ bundle
+## Limitations
 
-Or install it yourself as:
+This is just a proof of concept of something needed for a personal project, so I just spent a few hours
+working on this.
 
-    $ gem install poshy_matcher
-
-## Usage
-
-TODO: Write usage instructions here
+Right now is not possible to compare floating point numbers, and alphanumerical variables/values are not yet supported.
 
 ## Contributing
 
