@@ -38,7 +38,7 @@ module PoshyMatcher
         end
 
         def attr
-          attribute.text_value.to_sym
+          attribute.text_value
         end
 
         def op

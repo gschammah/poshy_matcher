@@ -7,7 +7,7 @@ Example
 
 ```ruby
 query = '(name=john&age>20)|(name!=john&age<40)'
-input = { name: 'john', age: 30 }
+input = { 'name' => 'john', 'age' => 30 }
 
 PoshyMatcher.match?(query, input) # true
 ```
