@@ -52,7 +52,7 @@ module PoshyMatcher
     end
 
     rule attribute
-      string
+      alphanumeric
     end
 
     rule operator
@@ -64,11 +64,11 @@ module PoshyMatcher
     end
 
     rule value
-      number / string
+      number / alphanumeric
     end
 
-    rule string
-      [a-zA-Z]+ {
+    rule alphanumeric
+      [a-zA-Z0-9]+ {
         def eval
           text_value
         end

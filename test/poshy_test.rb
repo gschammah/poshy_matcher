@@ -29,6 +29,10 @@ class PoshyParserTest < Test::Unit::TestCase
     assert_match '(name=invalid|name=john)&age>20', { name: 'john', age: 30 }, 'compound boolean (commutative)'
   end
 
+  def test_alphanumeric
+    assert_match 'code=john123', { code: 'john123' }, 'alphanumeric'
+  end
+
   def test_nil
     assert_equal parse('firstname=john', name: 'john'), false, 'unexistent key'
   end

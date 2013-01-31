@@ -25,7 +25,7 @@ $ rake
 This is just a proof of concept of something needed for a personal project, so I just spent a few hours
 working on this.
 
-Right now is not possible to compare floating point numbers, and alphanumerical variables/values are not yet supported.
+Right now is not possible to compare floating point numbers.
 
 ## Contributing
 
