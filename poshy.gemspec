@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'poshy_matcher/version'
+require 'poshy/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "poshy_matcher"
-  gem.version       = PoshyMatcher::VERSION
+  gem.name          = "poshy"
+  gem.version       = Poshy::VERSION
   gem.authors       = ["Gabriel Schammah"]
   gem.email         = ["gschammah@gmail.com"]
   gem.description   = %q{TODO: Write a gem description}

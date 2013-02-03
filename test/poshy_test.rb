@@ -1,9 +1,9 @@
 require 'test/unit'
 require 'rubygems'
 
-require File.dirname(__FILE__) + "/../lib/poshy_matcher"
+require File.dirname(__FILE__) + "/../lib/poshy"
 
-class PoshyParserTest < Test::Unit::TestCase
+class AttributeMatcherParserTest < Test::Unit::TestCase
 
   def test_simple_expression
     assert_match 'name=john', { 'name' => 'john' },     'simple expression (=)'
@@ -42,7 +42,7 @@ class PoshyParserTest < Test::Unit::TestCase
   end
 
   def parse(query, input)
-    PoshyMatcher.match?(query, input)
+    Poshy.match?(query, input)
   end
 
 end

@@ -1,0 +1,132 @@
+# todo
+# add entity name (optional)
+# exists
+# in operator
+# add modifier (| shuffle:5)
+
+module Poshy
+  grammar MongoidQuery
+
+    rule query
+      (expression space)+ {
+        def criteria(context = {})
+          elements.map do |el|
+            el.expression.eval(context)
+          end
+        end
+      }
+    end
+
+    rule expression
+      identifier space operator space val:(quoted_value / local_variable) {
+        def eval(context)
+          value = val.respond_to?(:eval) ? val.eval(context) : val
+          [operator.eval, { identifier.text_value => value }]
+        end
+      }
+    end
+
+    rule local_variable
+      alphanumeric {
+        def eval(context)
+          context[text_value] || text_value
+        end
+      }
+    end
+
+    rule operator
+      '=' {
+        def eval
+          'and'
+        end
+      }
+      /
+      '!=' {
+        def eval
+          'ne'
+        end
+      }
+      /
+      '>=' {
+        def eval
+          'gte'
+        end
+      }
+      /
+      '<=' {
+        def eval
+          'lte'
+        end
+      }
+      /
+      '>' {
+        def eval
+          'gt'
+        end
+      }
+      /
+      '<' {
+        def eval
+          'lt'
+        end
+      }
+    end
+
+    rule quoted_value
+      ('"' value '"' / "'" value "'") {
+        def eval(context)
+          value.eval
+        end
+      }
+    end
+
+    rule value
+      number / alphanumeric
+    end
+
+    rule identifier
+      alphanumeric
+    end
+
+    rule alphanumeric
+      [a-zA-Z0-9.\-_]+ {
+        def eval(context = {})
+          text_value
+        end
+      }
+    end
+
+    rule string
+      [a-zA-Z]+ {
+        def eval
+          text_value
+        end
+      }
+    end
+
+    rule number
+      [0-9]+ {
+        def eval(context = {})
+          text_value.to_i
+        end
+      }
+    end
+
+    rule entity
+      string {
+        def eval
+          string.eval.downcase
+        end
+      }
+    end
+
+    rule space
+      [ \t]* {
+        def eval
+          {}
+        end
+      }
+    end
+
+  end
+end

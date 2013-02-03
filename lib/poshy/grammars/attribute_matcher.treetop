@@ -1,5 +1,5 @@
-module PoshyMatcher
-  grammar Poshy
+module Poshy
+  grammar AttributeMatcher
 
     rule start
       and_statement

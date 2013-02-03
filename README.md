@@ -1,4 +1,4 @@
-# Poshy Matcher
+# Poshy
 
 The basic idea behind this gem is to be able to detect if a non nested hash matches a query string.
 The query syntax is extremely simple but has some limitations.
