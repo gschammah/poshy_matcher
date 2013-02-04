@@ -1,18 +1,12 @@
-# todo
-# add entity name (optional)
-# exists
-# in operator
-# add modifier (| shuffle:5)
-
 module Poshy
   grammar MongoidQuery
 
     rule query
-      (expression space)+ {
+      entity:alphanumeric space expr:(expression space)+ mod_block:('|' space modifiers:modifier+)?  {
         def criteria(context = {})
-          elements.map do |el|
-            el.expression.eval(context)
-          end
+          criteria  = expr.elements.map {|el| el.expression.eval(context) }
+          modifiers = mod_block.respond_to?(:modifiers) ? mod_block.modifiers.elements.map(&:eval) : []
+          { entity: entity.eval, criteria: criteria, modifiers: Hash[modifiers] }
         end
       }
     end
@@ -22,6 +16,20 @@ module Poshy
         def eval(context)
           value = val.respond_to?(:eval) ? val.eval(context) : val
           [operator.eval, { identifier.text_value => value }]
+        end
+      }
+    end
+
+    rule modifier
+      string ':' value space {
+        def eval
+          [string.text_value, value.eval]
+        end
+      }
+      /
+      string space {
+        def eval
+          [text_value, true]
         end
       }
     end

@@ -12,6 +12,12 @@ Treetop.load ATTRIBUTE_MATCHER_GRAMMAR
 module Poshy
   extend self
 
+  class CompiledEntity < Struct.new(:compiled)
+    def criteria_for(context)
+      compiled.criteria(context)
+    end
+  end
+
   def attribute_matcher_parser
     @attribute_matcher ||= AttributeMatcherParser.new
   end
@@ -24,7 +30,7 @@ module Poshy
     attribute_matcher_parser.parse(query).eval(attributes)
   end
 
-  def criteria_for(query)
-    mongoid_query_parser.parse(query).criteria
+  def compile_entity(query)
+    CompiledEntity.new(mongoid_query_parser.parse(query))
   end
 end
